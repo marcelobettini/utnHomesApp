@@ -5,9 +5,22 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  template: `<header class="brand-mame">
+      <img
+        class="brand-logo"
+        src="/assets/logo.svg"
+        alt="logo"
+        aria-hidden="true"
+        routerLink="/"
+      />
+      <h1>Holis</h1>
+    </header>
+
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer>Esto es cualquiera</footer>`,
+  styleUrl: './app.component.css',
 })
-export class AppComponent {
-  title = 'homesapp';
-}
+export class AppComponent {}
