@@ -1,20 +1,54 @@
-import { Component } from '@angular/core';
-import { locations } from '../data/db';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { HousingLocationComponent } from '../housing-location/housing-location.component';
+import { IHousingLocation } from '../housing-location';
+import { HousingService } from '../housing.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HousingLocationComponent],
+  imports: [HousingLocationComponent],
   template: `
-    @for(house of houses; track house.id ){
+    <section>
+      <form>
+        <input type="search" placeholder="Filter by city" #filter />
+        <button
+          type="button"
+          class="primary"
+          (click)="filterResults(filter.value)"
+        >
+          Search
+        </button>
+      </form>
+    </section>
+    <section class="results">
+      @if(!housingLocationList.length){
+      <span>Loading...</span>
+      } @for(house of filteredLocationList; track house.id ){
 
-    <app-housing-location [housingLocation]="house" />
-    }
+      <app-housing-location [housingLocation]="house" />
+      }
+    </section>
   `,
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  houses = locations;
+  housingLocationList: IHousingLocation[] = [];
+  housingService: HousingService = inject(HousingService);
+  filteredLocationList: IHousingLocation[] = [];
+  constructor() {
+    this.housingService
+      .getAllHousingLocation()
+      .then((housingLocationList: IHousingLocation[]) => {
+        this.housingLocationList = housingLocationList;
+        this.filteredLocationList = housingLocationList;
+      });
+  }
+  filterResults(text: string) {
+    if (!text) {
+      this.filteredLocationList = this.housingLocationList;
+    }
+    this.filteredLocationList = this.housingLocationList.filter((house) =>
+      house?.city.toLowerCase().includes(text.toLowerCase())
+    );
+  }
 }

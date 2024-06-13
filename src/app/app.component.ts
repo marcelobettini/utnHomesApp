@@ -1,26 +1,26 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: `<header class="brand-mame">
-      <img
-        class="brand-logo"
-        src="/assets/logo.svg"
-        alt="logo"
-        aria-hidden="true"
-        routerLink="/"
-      />
-      <h1>Holis</h1>
-    </header>
-
+  imports: [RouterOutlet, RouterLink],
+  template: `
     <main>
-      <router-outlet></router-outlet>
+      <header class="brand-mame">
+        <img
+          class="brand-logo"
+          src="/assets/logo.svg"
+          alt="logo"
+          aria-hidden="true"
+          routerLink="/"
+        />
+      </header>
+      <section class="content">
+        <router-outlet></router-outlet>
+      </section>
     </main>
-
-    <footer>Esto es cualquiera</footer>`,
+  `,
   styleUrl: './app.component.css',
 })
 export class AppComponent {}
