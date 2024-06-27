@@ -13,8 +13,14 @@ export class HousingService {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(houses);
-      }, 1500);
+      }, 300);
     });
-    return [];
+  }
+  async getHousingLocationById(id: Number): Promise<IHousingLocation> {
+    const data = await fetch(`${this.url}/${id}`);
+    return (await data.json()) ?? {};
+  }
+  async submitApplication(firstName: string, lastName: string, email: string) {
+    alert(JSON.stringify({ firstName, lastName, email }));
   }
 }

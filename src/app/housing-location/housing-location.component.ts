@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { IHousingLocation } from '../housing-location';
 // Necesitamos el Router para ir a la pag de detalle y agregarlos a los imports
-
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-housing-location',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   template: `
-    <section class="listing">
+    <section class="listing" [routerLink]="['/details', housingLocation.id]">
       <img
         class="listing-photo"
         [src]="housingLocation.photo"
